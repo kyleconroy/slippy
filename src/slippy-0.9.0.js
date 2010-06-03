@@ -22,6 +22,9 @@
       
     options = {
         animateLength: 350,
+        animate: true,
+        footer: true,
+        footerLocation: "slide"
     }
 
     /**
@@ -198,11 +201,29 @@
             //Set default options
             options = $.extend(options, settings);
             
+            if (!options.animate)
+                options.animateLength = 0;
+            
             slides = this;
-            $('.footer')
-                .css('margin-top', '-' + $('.footer').innerHeight() + 'px')
-                .remove()
-                .appendTo(this);
+            
+            if (!options.footer) {
+                
+                $("#footer").hide().remove();
+                
+            } else if (options.footerLocation == "page") {
+                
+                $("#footer").addClass("footer-page");
+                
+            } else if (options.footerLocation == "slide")  {
+                
+                $('#footer')
+                    .addClass("footer-slide")
+                    .css('margin-top', '-' + $('.footer').innerHeight() + 'px')
+                    .remove()
+                    .appendTo(this); 
+                    
+            }   
+                
             $('<div/>').addClass('slideDisplay').prependTo('body');
             this.each(buildSlide);
             this.last().addClass('lastslide');

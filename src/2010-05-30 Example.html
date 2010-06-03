@@ -12,7 +12,8 @@
         <script type="text/javascript">
             $(document).ready(function() {
                 $(".slide").slippy({
-                  animateLength: 0
+                  animate: false,
+                  footer: false,
                 });
             });
         </script>
@@ -64,7 +65,7 @@
             <p>That's it for now, enjoy!</p>
         </div>
 
-        <div class="footer">
+        <div id="footer">
             <span class="left">Jordi Boggiano</span>
             <span class="right">Slippy on <a href="http://github.com/Seldaek/slippy/">github</a></span>
             <span class="left">Blog <a href="http://seld.be/">seld.be</a></span>
