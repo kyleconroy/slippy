@@ -11,10 +11,18 @@
 
 // Slide deck module
 (function($) {
-    var slides, curSlide, animLen = 350,
+    var slides, curSlide, options,
         // methods
         buildSlide, preparePreTags, executeCode, nextSlide, prevSlide, showSlide, setSlide,
         keyboardNav, urlChange;
+        
+    /**
+      * Default Values
+      */
+      
+    options = {
+        animateLength: 350,
+    }
 
     /**
      * Init slides
@@ -142,30 +150,34 @@
 
     nextSlide = function(e) {
         if (slides.length < curSlide + 2) { return; }
+        
         if (slides[curSlide]) {
-            $(slides[curSlide]).animate({left: '-50%'}, animLen);
+            $(slides[curSlide]).animate({left: '-50%'}, options.animateLength);
         }
+        
         setSlide(curSlide+1);
-        $(slides[curSlide]).css('left', '150%').animate({left: '50%'}, animLen);
+        
+        $(slides[curSlide]).css('left', '150%').animate({left: '50%'}, options.animateLength);
+
         $.history.load(curSlide+1);
     };
 
     prevSlide = function(e) {
         if (curSlide <= 0) { return; }
-        $(slides[curSlide]).animate({left: '150%'}, animLen);
+        $(slides[curSlide]).animate({left: '150%'}, options.animateLength);
         setSlide(curSlide-1);
         if (slides[curSlide]) {
-            $(slides[curSlide]).css('left', '-50%').animate({left: '50%'}, animLen);
+            $(slides[curSlide]).css('left', '-50%').animate({left: '50%'}, options.animateLength);
         }
         $.history.load(curSlide+1);
     };
 
     showSlide = function(target) {
         if (curSlide !== undefined) {
-            $(slides[curSlide]).animate({left: '-50%'}, animLen);
+            $(slides[curSlide]).animate({left: '-50%'}, options.animateLength);
         }
         setSlide(target);
-        $(slides[curSlide]).css('left', '150%').animate({left: '50%'}, animLen);
+        $(slides[curSlide]).css('left', '150%').animate({left: '50%'}, options.animateLength);
         $.history.load(curSlide+1);
     };
 
@@ -182,7 +194,10 @@
     };
 
     $.fn.extend({
-        slippy: function() {
+        slippy: function(settings) {
+            //Set default options
+            options = $.extend(options, settings);
+            
             slides = this;
             $('.footer')
                 .css('margin-top', '-' + $('.footer').innerHeight() + 'px')
